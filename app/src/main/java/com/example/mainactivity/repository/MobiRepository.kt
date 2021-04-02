@@ -1,8 +1,12 @@
 package com.example.mainactivity.repository
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.cgg.virtuokotlin.network.getNetworkService
 import com.example.mainactivity.BuildConfig
+import com.example.mainactivity.db.dao.StateDao
+import com.example.mainactivity.db.database.AppDB
+import com.example.mainactivity.source.StatesData
 import com.example.mainactivity.source.TokenData
 import retrofit2.Call
 import retrofit2.Callback
@@ -10,6 +14,7 @@ import retrofit2.Response
 
 object MobiRepository {
     private val tokenRes = MutableLiveData<TokenData?>()
+    private val statesRes = MutableLiveData<List<StatesData>?>()
 
     fun callSessionAPI(): MutableLiveData<TokenData?> {
         if (tokenRes.value != null) {
@@ -33,4 +38,28 @@ object MobiRepository {
         })
         return tokenRes
     }
+
+    fun callStatesAPI(token: String): MutableLiveData<List<StatesData>?> {
+        if (statesRes.value != null) {
+            return statesRes
+        }
+        val vService = getNetworkService()
+        val call = vService.getStatesAPI(token)
+
+        call!!.enqueue(object : Callback<List<StatesData>> {
+            override fun onResponse(
+                call: Call<List<StatesData>?>,
+                response: Response<List<StatesData>?>
+            ) {
+                statesRes.value = response.body()
+            }
+
+            override fun onFailure(call: Call<List<StatesData>?>, t: Throwable) {
+                statesRes.value = null
+            }
+
+        })
+        return statesRes
+    }
+
 }

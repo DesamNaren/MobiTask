@@ -16,9 +16,12 @@ import java.util.List;
 
 public class StateRepository {
     private StateDao stateDao;
+
     public void insertStates(final StatesInterface statesInterface, final List<StatesData> statesData, final Context context) {
         AppDB appDataBase = AppDataBase.Companion.getDatabase(context);
-        stateDao = appDataBase.stateDao();
+        if (appDataBase != null) {
+            stateDao = appDataBase.stateDao();
+        }
 
         new InsertStatesTask(statesInterface, statesData).execute();
     }
@@ -40,6 +43,46 @@ public class StateRepository {
         protected Integer doInBackground(Void... voids) {
             stateDao.deleteStates();
             stateDao.insertState(statesData);
+            return stateDao.stateCount();
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+            statesInterface.stateCount(integer);
+        }
+    }
+
+    public void updateFav(final StatesInterface statesInterface,
+                          String name,
+                          Boolean flag,
+                          final Context context) {
+        AppDB appDataBase = AppDataBase.Companion.getDatabase(context);
+        if (appDataBase != null) {
+            stateDao = appDataBase.stateDao();
+        }
+
+        new UpdateTask(statesInterface, name, flag).execute();
+    }
+
+
+    @SuppressLint("StaticFieldLeak")
+    private class UpdateTask extends AsyncTask<Void, Void, Integer> {
+        String name;
+        Boolean flag;
+        StatesInterface statesInterface;
+
+        UpdateTask(StatesInterface statesInterface,
+                   String name, Boolean flag) {
+            this.name = name;
+            this.flag = flag;
+            this.statesInterface = statesInterface;
+        }
+
+
+        @Override
+        protected Integer doInBackground(Void... voids) {
+            stateDao.updateFav(flag, name);
             return stateDao.stateCount();
         }
 

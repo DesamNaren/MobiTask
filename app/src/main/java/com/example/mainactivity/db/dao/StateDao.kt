@@ -22,7 +22,7 @@ interface StateDao {
     @Query("SELECT * from StatesData")
     fun getStatesData(): LiveData<List<StatesData>>
 
-//    @Query("UPDATE work_locations SET address = :val WHERE id IN (:ss)")
-//    int updateAllLocations(List<WorkLocationMaster> ss, String val);
+    @Query("UPDATE StatesData SET fav = :flag WHERE state_name LIKE :name")
+    fun updateFav(flag: Boolean, name: String)
 
 }

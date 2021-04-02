@@ -34,7 +34,8 @@ class HomeFragment : Fragment(), StatesInterface {
             ViewModelProvider(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         recyclerView = root.findViewById(R.id.states_rv)
-        callStatesAPI()
+        getLocalStates()
+
         return root
     }
 
@@ -51,9 +52,6 @@ class HomeFragment : Fragment(), StatesInterface {
                         //insert into db
                         if (statesData != null) {
 
-
-                            val repo = StateRepository()
-
                             repo.insertStates(this, statesData, (activity)!!)
                         }
                     })
@@ -62,15 +60,33 @@ class HomeFragment : Fragment(), StatesInterface {
         }
     }
 
+    var repo: StateRepository = StateRepository()
+
     override fun stateCount(count: Int) {
-        Toast.makeText((activity)!!, "" + count, Toast.LENGTH_SHORT).show()
+        getLocalStates()
+    }
 
+    var pos: Int = -1
+    override fun stateFav(flag: Boolean, name: String, pos: Int) {
+        this.pos = pos
+        repo.updateFav(this, name, flag, (activity)!!)
+    }
 
+    private fun getLocalStates() {
         homeViewModel.getLocalStates((activity)!!).observe((activity)!!, Observer { statesData ->
-                val dgMeetAdapter = StateAdapter((activity)!!, statesData)
-                recyclerView.adapter = dgMeetAdapter
-                recyclerView.layoutManager = LinearLayoutManager(context)
-            })
-
+            when {
+                statesData.isNotEmpty() -> {
+                    val dgMeetAdapter = StateAdapter((activity)!!, statesData, this)
+                    recyclerView.adapter = dgMeetAdapter
+                    recyclerView.layoutManager = LinearLayoutManager(context)
+                    if (pos != -1) {
+                        recyclerView.scrollToPosition(pos)
+                    }
+                }
+                else -> {
+                    callStatesAPI()
+                }
+            }
+        })
     }
 }

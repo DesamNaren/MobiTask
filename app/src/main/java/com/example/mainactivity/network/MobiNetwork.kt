@@ -19,16 +19,19 @@ package com.cgg.virtuokotlin.network
 import com.example.mainactivity.BuildConfig
 import com.example.mainactivity.source.StatesData
 import com.example.mainactivity.source.TokenData
+import com.example.mainactivity.source.WeatherData
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 
 val VIRTUO_BASE_URL = BuildConfig.SERVER_URL
+val WEATHER_BASE_URL = BuildConfig.WEATHER_SERVER_URL
 
 private val service: MobiNetwork by lazy {
     val okHttpClient = OkHttpClient.Builder()
@@ -46,7 +49,24 @@ private val service: MobiNetwork by lazy {
     retrofit.create(MobiNetwork::class.java)
 }
 
+private val wService: MobiNetwork by lazy {
+    val okHttpClient = OkHttpClient.Builder()
+        .readTimeout(60, TimeUnit.SECONDS)
+        .writeTimeout(60, TimeUnit.SECONDS)
+        .connectTimeout(60, TimeUnit.SECONDS)
+        .build()
+
+    val retrofit = Retrofit.Builder()
+        .baseUrl(WEATHER_BASE_URL)
+        .client(okHttpClient)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    retrofit.create(MobiNetwork::class.java)
+}
+
 fun getNetworkService() = service
+fun getWeatherService() = wService
 
 interface MobiNetwork {
 
@@ -60,5 +80,11 @@ interface MobiNetwork {
     fun getStatesAPI(
         @Header("Authorization") authorization: String?
     ): Call<List<StatesData>>?
+
+    @GET("weather")
+    fun getWeatherInfoAPI(
+        @Query("q") name: String?,
+        @Query("appid") id: String?
+    ): Call<WeatherData>?
 }
 

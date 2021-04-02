@@ -6,5 +6,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class StatesData(
     @PrimaryKey
-    val state_name: String
+    val state_name: String,
+    val fav:Boolean
 )

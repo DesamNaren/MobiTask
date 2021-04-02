@@ -21,8 +21,10 @@ android {
     buildTypes {
         debug {
             buildConfigField("String", "SERVER_URL", "\"https://www.universal-tutorial.com/\"")
+            buildConfigField("String", "WEATHER_SERVER_URL", "\"http://api.openweathermap.org/data/2.5/\"")
             buildConfigField("String", "USER_EMAIL", "\"narendrakumar.d@cgg.gov.in\"")
             buildConfigField("String", "API_TOKEN", "\"fbepyP1PkzEUI5O3nupISaxSRshN66kHApGlLu62eAuPyKx3AXzKp1LyHaXDya7o5sI\"")
+            buildConfigField("String", "APP_ID", "\"d16a7b466b9bb72f88fa6569375410c9\"")
         }
         release {
             minifyEnabled false

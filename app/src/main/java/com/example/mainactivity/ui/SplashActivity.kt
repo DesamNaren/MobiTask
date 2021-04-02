@@ -1,9 +1,10 @@
-package com.example.mainactivity
+package com.example.mainactivity.ui
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.mainactivity.R
 import com.example.mainactivity.utilities.AppConstants
 import com.example.mainactivity.utilities.Extensions.toast
 import com.example.mainactivity.utilities.Utils

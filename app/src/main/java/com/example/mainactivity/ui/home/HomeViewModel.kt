@@ -13,6 +13,7 @@ import com.example.mainactivity.source.StatesData
 
 class HomeViewModel : ViewModel() {
     lateinit var stateRes: MutableLiveData<List<StatesData>?>
+    lateinit var localStates: MutableLiveData<List<StatesData>?>
 
     fun getStates(token: String): LiveData<List<StatesData>?> {
         stateRes = MobiRepository.callStatesAPI(token)

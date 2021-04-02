@@ -9,10 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.mainactivity.R
+import com.example.mainactivity.ui.home.WeatherViewModel
 
 class GalleryFragment : Fragment() {
 
-    private lateinit var galleryViewModel: GalleryViewModel
+    private lateinit var galleryViewModel: WeatherViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -20,11 +21,13 @@ class GalleryFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         galleryViewModel =
-                ViewModelProvider(this).get(GalleryViewModel::class.java)
+                ViewModelProvider(this).get(WeatherViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_gallery, container, false)
-        val textView: TextView = root.findViewById(R.id.text_gallery)
-        galleryViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+        galleryViewModel.getStates("Andhra Pradesh").observe((activity)!!, Observer { weatherData ->
+            //insert into db
+            if (weatherData != null) {
+
+            }
         })
         return root
     }

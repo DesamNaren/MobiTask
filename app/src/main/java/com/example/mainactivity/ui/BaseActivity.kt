@@ -1,4 +1,4 @@
-package com.example.mainactivity
+package com.example.mainactivity.ui
 
 import android.content.Context
 import android.content.SharedPreferences

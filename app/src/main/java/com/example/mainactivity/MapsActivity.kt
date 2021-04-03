@@ -3,6 +3,7 @@ package com.example.mainactivity
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -11,12 +12,19 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.mainactivity.interfaces.StatesInterface
+import com.example.mainactivity.repository.StateRepository
+import com.example.mainactivity.source.StatesData
+import com.example.mainactivity.ui.MainActivity
+import com.example.mainactivity.ui.home.HomeViewModel
+import com.example.mainactivity.utilities.Extensions.toast
 import com.example.mainactivity.utilities.Utils
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -33,10 +41,12 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import java.util.*
+import kotlin.collections.ArrayList
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, StatesInterface {
 
+    private val listStates= ArrayList<StatesData>()
     private var map: GoogleMap? = null
     private var cameraPosition: CameraPosition? = null
 
@@ -58,6 +68,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private var likelyPlaceAddresses: Array<String?> = arrayOfNulls(0)
     private var likelyPlaceAttributions: Array<List<*>?> = arrayOfNulls(0)
     private var likelyPlaceLatLngs: Array<LatLng?> = arrayOfNulls(0)
+    var repo = StateRepository()
 
     // [START maps_current_place_on_create]
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,6 +102,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment?.getMapAsync(this)
         // [END maps_current_place_map_fragment]
         // [END_EXCLUDE]
+
+
+        val button = findViewById<Button>(R.id.button)
+        button.setOnClickListener(View.OnClickListener {
+            if (listStates.isNotEmpty())
+                repo.insertStates(this@MapsActivity, listStates, this@MapsActivity)
+            else
+                toast("No cities added")
+        })
     }
     // [END maps_current_place_on_create]
 
@@ -145,11 +165,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         map.setOnMapClickListener(OnMapClickListener { point ->
 
-            val addresses = Utils.getLocationAddress(this, 17.4, 78.3)
+            val addresses = Utils.getLocationAddress(this, point.latitude, point.longitude)
             if (addresses.isNotEmpty()) {
                 var final_locality: String? = null
-                val subLocality: String = addresses[0].subLocality
-                val locality: String = addresses[0].locality
+                var subLocality: String? = null
+                var locality: String? = null
+                if (addresses[0].subLocality != null) {
+                    subLocality = addresses[0].subLocality
+                }
+                if (addresses[0].locality != null) {
+                    locality = addresses[0].locality
+                }
 
                 if (!TextUtils.isEmpty(subLocality)) {
                     final_locality = subLocality
@@ -159,16 +185,30 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     final_locality = addresses[0].getAddressLine(0)
                 }
                 if (final_locality != null) {
-                    val marker = MarkerOptions().position(LatLng(point.latitude, point.longitude))
-                        .title(locality)
-                    map.addMarker(marker)
-                    println(point.latitude.toString() + "---" + point.longitude)
+
+                    val data = repo.checkFav(final_locality, this@MapsActivity);
+                    data.observe(this@MapsActivity, androidx.lifecycle.Observer { stateData ->
+                        data.removeObservers(this@MapsActivity)
+                            val st = StatesData(0, final_locality, true)
+                            listStates.add(st)
+                            val marker = MarkerOptions().position(
+                                LatLng(
+                                    point.latitude,
+                                    point.longitude
+                                )
+                            )
+                                .title(final_locality)
+                            map.addMarker(marker)
+                            println(point.latitude.toString() + "---" + point.longitude)
+
+                    })
+
+
                 }
 
 
             }
         })
-
         // [START_EXCLUDE]
         // [START map_current_place_set_info_window_adapter]
         // Use a custom info window adapter to handle multiple lines of text in the
@@ -187,8 +227,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
                 val title = infoWindow.findViewById<TextView>(R.id.title)
                 title.text = marker.title
-                val snippet = infoWindow.findViewById<TextView>(R.id.snippet)
-                snippet.text = marker.snippet
+
+
                 return infoWindow
             }
         })
@@ -453,6 +493,42 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Used for selecting the current place.
         private const val M_MAX_ENTRIES = 5
+    }
+
+    override fun stateCount(count: Int) {
+        if (count > 0) {
+            toast("Updated")
+        }
+    }
+
+    override fun checkCount(count: Int, name: String) {
+//        if (count == 0) {
+//            val st = StatesData(0, name, true)
+//            val list = ArrayList<StatesData>()
+//            list.add(st)
+//            repo.insertStates(this, list, this)
+//        } else {
+//            repo.updateFav(this@MapsActivity, name, false, this@MapsActivity)
+//
+//        }
+    }
+
+    override fun stateFav(flag: Boolean, name: String, pos: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onItemClick(name: String) {
+        TODO("Not yet implemented")
+    }
+
+    private lateinit var homeViewModel: HomeViewModel
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val newIntent = Intent(this@MapsActivity, MainActivity::class.java)
+        newIntent.addFlags(
+            Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(newIntent)
     }
 
 }

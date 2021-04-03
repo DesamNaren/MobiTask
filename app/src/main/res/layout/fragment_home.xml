@@ -8,17 +8,10 @@
     tools:context=".ui.home.HomeFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:visibility="gone"
-        android:id="@+id/favourites_rv"
+        android:id="@+id/states_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="@dimen/fab_margin"
-        android:id="@+id/states_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/favourites_rv"
-        tools:layout_editor_absoluteX="34dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

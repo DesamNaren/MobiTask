@@ -6,6 +6,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 
+import androidx.lifecycle.LiveData;
+
 import com.example.mainactivity.db.dao.StateDao;
 import com.example.mainactivity.db.database.AppDB;
 import com.example.mainactivity.db.database.AppDataBase;
@@ -13,6 +15,8 @@ import com.example.mainactivity.interfaces.StatesInterface;
 import com.example.mainactivity.source.StatesData;
 
 import java.util.List;
+
+import retrofit2.http.PUT;
 
 public class StateRepository {
     private StateDao stateDao;
@@ -41,7 +45,6 @@ public class StateRepository {
 
         @Override
         protected Integer doInBackground(Void... voids) {
-            stateDao.deleteStates();
             stateDao.insertState(statesData);
             return stateDao.stateCount();
         }
@@ -91,5 +94,18 @@ public class StateRepository {
             super.onPostExecute(integer);
             statesInterface.stateCount(integer);
         }
+    }
+
+
+    public LiveData<StatesData> checkFav(
+            String name,
+            final Context context) {
+
+        AppDB appDataBase = AppDataBase.Companion.getDatabase(context);
+        if (appDataBase != null) {
+            stateDao = appDataBase.stateDao();
+        }
+
+        return stateDao.checkCity(name);
     }
 }

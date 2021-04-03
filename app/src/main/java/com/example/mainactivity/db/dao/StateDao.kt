@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.mainactivity.source.StatesData
 
@@ -13,7 +14,7 @@ interface StateDao {
     @Query("DELETE FROM StatesData")
     fun deleteStates()
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertState(statesData: List<StatesData?>?)
 
     @Query("SELECT COUNT(*) FROM statesdata")
@@ -24,5 +25,8 @@ interface StateDao {
 
     @Query("UPDATE StatesData SET fav = :flag WHERE state_name LIKE :name")
     fun updateFav(flag: Boolean, name: String)
+
+    @Query("SELECT * from StatesData WHERE state_name LIKE :name")
+    fun checkCity(name: String):LiveData<StatesData>
 
 }

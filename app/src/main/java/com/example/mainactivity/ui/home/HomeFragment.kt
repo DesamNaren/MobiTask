@@ -70,6 +70,10 @@ class HomeFragment : Fragment(), StatesInterface {
         getLocalStates()
     }
 
+    override fun checkCount(count: Int, name: String) {
+        TODO("Not yet implemented")
+    }
+
     var pos: Int = -1
     override fun stateFav(flag: Boolean, name: String, pos: Int) {
         this.pos = pos

@@ -31,6 +31,7 @@ class SplashActivity : BaseActivity() {
                     preferencesEditor.commit()
                     val newIntent = Intent(this@SplashActivity, MainActivity::class.java)
                     startActivity(newIntent)
+                    finish()
                 })
             }
         }

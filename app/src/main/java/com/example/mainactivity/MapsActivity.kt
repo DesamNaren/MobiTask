@@ -506,6 +506,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, StatesInterface {
     override fun stateCount(count: Int) {
         if (count > 0) {
             toast("Updated")
+            val newIntent = Intent(this@MapsActivity, MainActivity::class.java)
+            newIntent.addFlags(
+                Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(newIntent)
         }
     }
 

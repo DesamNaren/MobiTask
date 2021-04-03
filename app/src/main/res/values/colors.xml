@@ -5,6 +5,142 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+
+    <color name="list_item_title">#ffffff</color>
+    <color name="list_background">#42A2D5</color>
+    <color name="list_background_pressed">#00008B</color>
+    <color name="list_divider">#272727</color>
+    <color name="counter_text_bg">#626262</color>
+    <color name="counter_text_color">#c5c4c4</color>
+    <color name="action_bar">#00012F</color>
+    <color name="button_color">#ed524f</color>
+
+    <!--   <color name="action_bar">#ffffff</color> -->
+    <color name="ts_color">#9F245A</color>
+    <color name="dark_blue">#050a2e</color>
+    <color name="sky_blue">#24A9D0</color>
+    <color name="orange">#F3811B</color>
+    <color name="b1">#ACD1E9</color>
+
+    <color name="green">#04B431</color>
+    <color name="violet">#0C004C</color>
+    <color name="button">#ed524f</color>
+
+
+    <color name="Green_bt">#0C8069</color>
+    <color name="view_background">#e8ecfa</color>
+    <color name="btn_bg">#277bec</color>
+    <color name="white">#ffffff</color>
+    <color name="whitetran">#80FFFFFF</color>
+    <color name="Blue">#00012F</color>
+    <color name="txt_font">#4e5572</color>
+    <color name="text_black">#000000</color>
+    <color name="view_colour">#9CA1A4</color>
+
+    <color name="app_color">#C48254</color>
+    <color name="survey_toplist_item">#EFEDEC</color>
+    <color name="survey_alternate_color">#EBE7E6</color>
+    <color name="grey">#727272</color>
+    <color name="itemselected">#EDEDED</color>
+    <color name="login_hover">#E5F5FA</color>
+    <color name="sign_out_color">#D8D8D8</color>
+
+    <color name="black">#000000</color>
+    <color name="login_button_color">#223B73</color>
+    <color name="Blue_bt">#293a54</color>
+
+    <color name="gri_bg">#333</color>
+
+
+    <!-- ch theme-->
+    <item name="color1" type="color">#B4395B</item>
+    <item name="color2" type="color">#007AFB</item>
+    <item name="color3" type="color">#2A9B61</item>
+    <item name="color4" type="color">#3A359D</item>
+    <item name="color5" type="color">#D8B02F</item>
+    <integer-array name="theme_colors_id">
+        <item>@color/color1</item>
+        <item>@color/color2</item>
+        <item>@color/color3</item>
+        <item>@color/color4</item>
+        <item>@color/color5</item>
+    </integer-array>
+
+    <string-array name="theme_colornames">
+        <item>color1</item>
+        <item>color2</item>
+        <item>color3</item>
+        <item>color4</item>
+        <item>color5</item>
+    </string-array>
+
+    <color name="red">#FF0000</color>
+
+
+    <!--weathwer color-->
+
+    <color name="colorBackground">@android:color/transparent</color>
+    <color name="colorTintedBackground">#cdcdcd</color>
+
+    <color name="darkTheme_colorPrimary">#2196F3</color>
+    <color name="darkTheme_colorPrimaryDark">#1E88E5</color>
+    <color name="darkTheme_colorAccent">#2196F3</color>
+    <color name="darkTheme_colorBackground">#303030</color>
+    <color name="darkTheme_colorTintedBackground">#424242</color>
+
+    <color name="blackTheme_colorPrimary">#2196F3</color>
+    <color name="blackTheme_colorPrimaryDark">#1E88E5</color>
+    <color name="blackTheme_colorAccent">#2196F3</color>
+    <color name="blackTheme_colorBackground">#000000</color>
+    <color name="blackTheme_colorTintedBackground">#303030</color>
+
+    <color name="classic_colorPrimary">#607d8b</color>
+    <color name="classic_colorPrimaryDark">#455a64</color>
+    <color name="classic_colorAccent">#455a64</color>
+    <color name="classic_colorBackground">@android:color/transparent</color>
+    <color name="classic_colorTintedBackground">#cdcdcd</color>
+
+    <color name="classic_darkTheme_colorPrimary">#37474f</color>
+    <color name="classic_darkTheme_colorPrimaryDark">#263238</color>
+    <color name="classic_darkTheme_colorAccent">#90a4ae</color>
+    <color name="classic_darkTheme_colorBackground">#303030</color>
+    <color name="classic_darkTheme_colorTintedBackground">#263238</color>
+
+    <color name="classic_blackTheme_colorPrimary">#37474f</color>
+    <color name="classic_blackTheme_colorPrimaryDark">#263238</color>
+    <color name="classic_blackTheme_colorAccent">#90a4ae</color>
+    <color name="classic_blackTheme_colorBackground">#000000</color>
+    <color name="classic_blackTheme_colorTintedBackground">#303030</color>
+
+    <color name="splashBackground">#607d8b</color>
+
+    <color name="text_light">#ffffff</color>
+    <color name="text_dark">#000000</color>
+    <color name="tab_indicator">#ffffff</color>
+    <color name="colorFAB">#ffffff</color>
+
+    <color name="colorbase_ripple">#333333</color>
+    <color name="color_ripple">#7cff0000</color>
+    <color name="status_bar">#88000000</color>
+    <color name="custom_button_transparent">#5c000000</color>
+    <item name="bg_theme_color" type="color">#258488</item>
+
+    <!--inbox notification-->
+    <color name="notification_seen">#FFFFFF</color>
+    <color name="notification_unseen">#d7eff2</color>
+
+    <color name="notification_number_unseen">#D50000</color>
+    <color name="notification_number_seen">#009688</color>
+
+    <!--checkstatus color-->
+    <color name="checkstatus_colorOne">#4076ff</color>
+    <color name="checkstatus_colorTwo">#FF4500</color>
+    <color name="checkstatus_colorThree">#1c971c</color>
+    <color name="checkstatus_colorFour">#b1181b</color>
+    <color name="checkstatus_colorDefault">#ffffff</color>
+    <color name="checkstatus_line">#66100f0f</color>
+    <color name="lightred">#c55e57</color>
+    <color name="lightbrown">#c9c0c2</color>
+    <color name="composting_blue">#00012F</color>
 </resources>

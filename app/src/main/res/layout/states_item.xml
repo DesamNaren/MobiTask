@@ -8,6 +8,7 @@
             type="com.example.mainactivity.source.StatesData" />
     </data>
     <RelativeLayout
+        android:id="@+id/rv_item"
         android:layout_margin="@dimen/cardview_default_elevation"
         android:background="@color/design_default_color_primary"
         android:layout_width="match_parent"

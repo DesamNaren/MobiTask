@@ -12,7 +12,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-object MobiRepository {
+class MobiRepository {
     private val tokenRes = MutableLiveData<TokenData?>()
     private val statesRes = MutableLiveData<List<StatesData>?>()
 

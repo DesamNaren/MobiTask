@@ -2,6 +2,7 @@ package com.example.mainactivity.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -41,6 +42,10 @@ class StateAdapter(var context: Context, private val list: List<StatesData>?, pr
             }else{
                 statesInterface.stateFav(false, dataModel.state_name, i)
             }
+        }
+
+        holder.listItemBinding.rvItem.setOnClickListener {
+            statesInterface.onItemClick(dataModel.state_name)
         }
         holder.bind()
     }

@@ -17,6 +17,7 @@
 package com.cgg.virtuokotlin.network
 
 import com.example.mainactivity.BuildConfig
+import com.example.mainactivity.source.LongWeatherData
 import com.example.mainactivity.source.StatesData
 import com.example.mainactivity.source.TokenData
 import com.example.mainactivity.source.WeatherData
@@ -86,5 +87,11 @@ interface MobiNetwork {
         @Query("q") name: String?,
         @Query("appid") id: String?
     ): Call<WeatherData>?
+
+    @GET("forecast")
+    fun getLongWeatherInfoAPI(
+        @Query("q") name: String?,
+        @Query("appid") id: String?
+    ): Call<LongWeatherData>?
 }
 

@@ -1,6 +1,8 @@
 package com.example.mainactivity.ui.home
 
 import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,8 @@ import com.example.mainactivity.adapter.StateAdapter
 import com.example.mainactivity.application.MobiApplication
 import com.example.mainactivity.interfaces.StatesInterface
 import com.example.mainactivity.repository.StateRepository
+import com.example.mainactivity.ui.MainActivity
+import com.example.mainactivity.ui.MainWeatherActivity
 import com.example.mainactivity.utilities.AppConstants
 import com.example.mainactivity.utilities.Extensions.toast
 import com.example.mainactivity.utilities.Utils
@@ -70,6 +74,13 @@ class HomeFragment : Fragment(), StatesInterface {
     override fun stateFav(flag: Boolean, name: String, pos: Int) {
         this.pos = pos
         repo.updateFav(this, name, flag, (activity)!!)
+    }
+
+    override fun onItemClick(name: String) {
+        val d = MobiApplication.SharedPrefEditorObj.getPreferencesEditor()!!
+        d.putString("name", name).commit()
+        val newIntent = Intent(activity, MainWeatherActivity::class.java)
+        startActivity(newIntent)
     }
 
     private fun getLocalStates() {

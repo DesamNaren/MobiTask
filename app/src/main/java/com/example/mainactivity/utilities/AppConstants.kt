@@ -1,6 +1,8 @@
 package com.example.mainactivity.utilities
 
 object AppConstants {
+    const val DEFAULT_CITY = "Hyderabad"
+
     val PER_ASKED: String = "PER_ASKED"
     var VERSION_DATE: String = "FCM_TOKEN"
     const val FCM_TOKEN: String = "FCM_TOKEN"

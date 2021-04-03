@@ -12,7 +12,7 @@ class MobiViewModel : ViewModel() {
     lateinit var stateRes: MutableLiveData<List<StatesData>?>
 
     fun getSessionToken(): LiveData<TokenData?> {
-        sessionRes = MobiRepository.callSessionAPI()
+        sessionRes = MobiRepository().callSessionAPI()
         return sessionRes
     }
 

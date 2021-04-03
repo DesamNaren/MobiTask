@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -16,9 +17,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.mainactivity.utilities.Utils
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
@@ -29,6 +32,8 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
+import java.util.*
+
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -108,9 +113,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      * @return Boolean.
      */
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-         menuInflater.inflate(R.menu.current_place_menu, menu)
-         return true
-     }
+        menuInflater.inflate(R.menu.current_place_menu, menu)
+        return true
+    }
 
 
     /**
@@ -132,8 +137,37 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      * This callback is triggered when the map is ready to be used.
      */
     // [START maps_current_place_on_map_ready]
+
+
     override fun onMapReady(map: GoogleMap) {
         this.map = map
+
+
+        map.setOnMapClickListener(OnMapClickListener { point ->
+
+            val addresses = Utils.getLocationAddress(this, 17.4, 78.3)
+            if (addresses.isNotEmpty()) {
+                var final_locality: String? = null
+                val subLocality: String = addresses[0].subLocality
+                val locality: String = addresses[0].locality
+
+                if (!TextUtils.isEmpty(subLocality)) {
+                    final_locality = subLocality
+                } else if (!TextUtils.isEmpty(locality)) {
+                    final_locality = locality
+                } else if (!TextUtils.isEmpty(addresses[0].getAddressLine(0))) {
+                    final_locality = addresses[0].getAddressLine(0)
+                }
+                if (final_locality != null) {
+                    val marker = MarkerOptions().position(LatLng(point.latitude, point.longitude))
+                        .title(locality)
+                    map.addMarker(marker)
+                    println(point.latitude.toString() + "---" + point.longitude)
+                }
+
+
+            }
+        })
 
         // [START_EXCLUDE]
         // [START map_current_place_set_info_window_adapter]

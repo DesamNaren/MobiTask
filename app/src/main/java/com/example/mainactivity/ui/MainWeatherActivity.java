@@ -480,6 +480,9 @@ public class MainWeatherActivity extends AppCompatActivity {
         binding.viewPager.setAdapter(viewPagerAdapter);
         binding.tabs.setupWithViewPager(binding.viewPager);
 
+        if (currentPage == 0 && longTermTodayWeatherInfo.isEmpty()) {
+            currentPage = 0;
+        }
         binding.viewPager.setCurrentItem(currentPage, false);
     }
 

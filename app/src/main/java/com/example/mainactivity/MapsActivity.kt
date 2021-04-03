@@ -461,21 +461,29 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, StatesInterface {
      */
     // [START maps_current_place_update_location_ui]
     private fun updateLocationUI() {
-        if (map == null) {
-            return
-        }
         try {
-            if (locationPermissionGranted) {
-                map?.isMyLocationEnabled = true
-                map?.uiSettings?.isMyLocationButtonEnabled = true
-            } else {
-                map?.isMyLocationEnabled = false
-                map?.uiSettings?.isMyLocationButtonEnabled = false
-                lastKnownLocation = null
-                getLocationPermission()
+            if (map == null) {
+                return
             }
-        } catch (e: SecurityException) {
-            Log.e("Exception: %s", e.message, e)
+            try {
+                if (locationPermissionGranted) {
+                    map?.isMyLocationEnabled = true
+                    map?.uiSettings?.isMyLocationButtonEnabled = true
+                } else {
+                    try {
+                        map?.isMyLocationEnabled = false
+                        map?.uiSettings?.isMyLocationButtonEnabled = false
+
+                        lastKnownLocation = null
+                        getLocationPermission()
+                    } catch (e: Exception) {
+                    }
+
+                }
+            } catch (e: SecurityException) {
+                Log.e("Exception: %s", e.message, e)
+            }
+        } catch (e: Exception) {
         }
     }
     // [END maps_current_place_update_location_ui]

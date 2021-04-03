@@ -60,6 +60,8 @@ dependencies {
 
     implementation 'android.arch.persistence.room:runtime:1.0.0-alpha1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0-alpha1'
 
     testImplementation 'junit:junit:4.+'
@@ -71,4 +73,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'com.karumi:dexter:5.0.0'
+    implementation 'com.google.android.libraries.places:places:2.4.0'
+
 }

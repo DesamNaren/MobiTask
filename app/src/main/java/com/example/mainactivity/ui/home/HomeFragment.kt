@@ -90,9 +90,9 @@ class HomeFragment : Fragment(), StatesInterface {
                     val dgMeetAdapter = StateAdapter((activity)!!, statesData, this)
                     recyclerView.adapter = dgMeetAdapter
                     recyclerView.layoutManager = LinearLayoutManager(context)
-                    if (pos != -1) {
-                        recyclerView.scrollToPosition(pos)
-                    }
+//                    if (pos != -1) {
+//                        recyclerView.scrollToPosition(pos)
+//                    }
                 }
                 else -> {
                     callStatesAPI()

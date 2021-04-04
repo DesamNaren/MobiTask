@@ -26,6 +26,10 @@ interface StateDao {
     @Query("UPDATE StatesData SET fav = :flag WHERE state_name LIKE :name")
     fun updateFav(flag: Boolean, name: String)
 
+
+    @Query("UPDATE StatesData SET fav=0")
+    fun resetFav()
+
     @Query("SELECT * from StatesData WHERE state_name LIKE :name")
     fun checkCity(name: String):LiveData<StatesData>
 

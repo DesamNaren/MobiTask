@@ -10,6 +10,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Add City</string>
     <string name="menu_help">Help</string>
+    <string name="menu_settings">Settings</string>
 
     <string name="settings_title_units">Units</string>
     <string name="settings_title_display">Display</string>
@@ -151,5 +152,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="turnonloc">Turn On</string>
+    <string name="reset_favourites">Reset Favourites</string>
 
 </resources>

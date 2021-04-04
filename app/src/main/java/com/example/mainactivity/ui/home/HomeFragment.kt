@@ -27,7 +27,7 @@ import com.example.mainactivity.utilities.Utils
 class HomeFragment : Fragment(), StatesInterface {
 
     private lateinit var listOfData: ArrayList<StatesData>
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var homeViewModel: SettingsViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: StateAdapter
     private var deletePos: Int = -1
@@ -38,7 +38,7 @@ class HomeFragment : Fragment(), StatesInterface {
         savedInstanceState: Bundle?
     ): View? {
         homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+            ViewModelProvider(this).get(SettingsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         recyclerView = root.findViewById(R.id.states_rv)
         listOfData = ArrayList()

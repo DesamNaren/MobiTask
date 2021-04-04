@@ -66,6 +66,16 @@ public class StateRepository {
     }
 
 
+    public void resetFav(Context context, StatesInterface statesInterface) {
+
+        AppDB appDataBase = AppDB.getDatabase(context);
+        if (appDataBase != null) {
+            stateDao = appDataBase.stateDao();
+            new ResetTask(context, statesInterface).execute();
+        }
+    }
+
+
     @SuppressLint("StaticFieldLeak")
     private class DeleteTask extends AsyncTask<Void, Void, Integer> {
         String name;
@@ -98,9 +108,32 @@ public class StateRepository {
             stateDao = appDataBase.stateDao();
         }
 
-        new DeleteTask(statesInterface, name ).execute();
+        new DeleteTask(statesInterface, name).execute();
     }
 
+    @SuppressLint("StaticFieldLeak")
+    private class ResetTask extends AsyncTask<Void, Void, Integer> {
+        StatesInterface statesInterface;
+        Context context;
+
+        ResetTask(Context context, StatesInterface statesInterface) {
+            this.statesInterface = statesInterface;
+            this.context = context;
+        }
+
+
+        @Override
+        protected Integer doInBackground(Void... voids) {
+            stateDao.resetFav();
+            return stateDao.stateCount();
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+            statesInterface.stateCount(integer);
+        }
+    }
 
     @SuppressLint("StaticFieldLeak")
     private class UpdateTask extends AsyncTask<Void, Void, Integer> {

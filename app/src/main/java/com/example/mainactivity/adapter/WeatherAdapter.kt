@@ -7,6 +7,7 @@ import android.graphics.Typeface
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mainactivity.R
 import com.example.mainactivity.source.WeatherInfo
@@ -16,6 +17,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class WeatherAdapter(
     private val context: Context,
     private val itemList: List<WeatherInfo>?
@@ -80,9 +82,9 @@ class WeatherAdapter(
                         )
                     )
                     color = if (weatherInfoItem.getNumDaysFrom(now) % 2 == 1L) {
-                        ta.getColor(0, context.resources.getColor(R.color.colorTintedBackground))
+                        ta.getColor(0, ContextCompat.getColor(context, R.color.colorTintedBackground))
                     } else {
-                        ta.getColor(1, context.resources.getColor(R.color.colorBackground))
+                        ta.getColor(1, ContextCompat.getColor(context, R.color.colorBackground))
                     }
                     ta.recycle()
                     customHolder.itemView.setBackgroundColor(color)

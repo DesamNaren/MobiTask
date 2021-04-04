@@ -1,9 +1,6 @@
 package com.example.mainactivity.utilities
 
-import android.app.Activity
 import android.content.Context
-import android.content.SharedPreferences
-import android.util.Log
 import android.widget.Toast
 
 

@@ -36,7 +36,12 @@ class WeatherAdapter(
             val sp = PreferenceManager.getDefaultSharedPreferences(context)
 
             var temperature =
-                weatherInfoItem.temperature?.let { UnitConverter.convertTemperature(it.toFloat(), sp) }
+                weatherInfoItem.temperature?.let {
+                    UnitConverter.convertTemperature(
+                        it.toFloat(),
+                        sp
+                    )
+                }
             if (sp.getBoolean("temperatureInteger", false)) {
                 if (temperature != null) {
                     temperature = temperature.roundToInt().toFloat()
@@ -82,7 +87,10 @@ class WeatherAdapter(
                         )
                     )
                     color = if (weatherInfoItem.getNumDaysFrom(now) % 2 == 1L) {
-                        ta.getColor(0, ContextCompat.getColor(context, R.color.colorTintedBackground))
+                        ta.getColor(
+                            0,
+                            ContextCompat.getColor(context, R.color.colorTintedBackground)
+                        )
                     } else {
                         ta.getColor(1, ContextCompat.getColor(context, R.color.colorBackground))
                     }

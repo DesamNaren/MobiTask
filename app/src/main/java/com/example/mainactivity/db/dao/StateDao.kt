@@ -1,7 +1,6 @@
 package com.example.mainactivity.db.dao
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -31,9 +30,9 @@ interface StateDao {
     fun resetFav()
 
     @Query("SELECT * from StatesData WHERE state_name LIKE :name")
-    fun checkCity(name: String):LiveData<StatesData>
+    fun checkCity(name: String): LiveData<StatesData>
 
 
     @Query("DELETE FROM StatesData WHERE state_name LIKE :name")
-    fun deleteItem(name: String):Int
+    fun deleteItem(name: String): Int
 }

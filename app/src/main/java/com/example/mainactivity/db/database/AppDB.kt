@@ -15,14 +15,15 @@ abstract class AppDB : RoomDatabase() {
         private var INSTANCE: AppDB? = null
         fun getDatabase(context: Context): AppDB? {
             if (INSTANCE == null) {
-                    if (INSTANCE == null) {
-                        INSTANCE =
-                            Room.databaseBuilder(
-                                context.applicationContext,
-                                AppDB::class.java, "Mobi.db")
-                                .fallbackToDestructiveMigration()
-                                .build()
-                    }
+                if (INSTANCE == null) {
+                    INSTANCE =
+                        Room.databaseBuilder(
+                            context.applicationContext,
+                            AppDB::class.java, "Mobi.db"
+                        )
+                            .fallbackToDestructiveMigration()
+                            .build()
+                }
 
             }
             return INSTANCE

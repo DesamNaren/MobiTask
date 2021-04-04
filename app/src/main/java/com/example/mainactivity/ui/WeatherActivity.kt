@@ -283,7 +283,12 @@ public class WeatherActivity : AppCompatActivity() {
         var temperature = 0f
         try {
             temperature =
-                todayWeatherInfo.temperature?.let { UnitConverter.convertTemperature(it.toFloat(), sp) }!!
+                todayWeatherInfo.temperature?.let {
+                    UnitConverter.convertTemperature(
+                        it.toFloat(),
+                        sp
+                    )
+                }!!
             if (sp.getBoolean("temperatureInteger", false)) {
                 temperature = Math.round(temperature).toFloat()
             }

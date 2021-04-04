@@ -1,11 +1,8 @@
 package com.example.mainactivity.repository
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.cgg.virtuokotlin.network.getNetworkService
 import com.example.mainactivity.BuildConfig
-import com.example.mainactivity.db.dao.StateDao
-import com.example.mainactivity.db.database.AppDB
 import com.example.mainactivity.source.StatesData
 import com.example.mainactivity.source.TokenData
 import retrofit2.Call

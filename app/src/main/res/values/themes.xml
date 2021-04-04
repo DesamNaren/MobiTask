@@ -18,15 +18,16 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="AppTheme.Dark" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/darkTheme_colorPrimary</item>
         <item name="colorPrimaryDark">@color/darkTheme_colorPrimaryDark</item>
         <item name="colorAccent">@color/darkTheme_colorAccent</item>
     </style>
+
     <style name="Theme.MainActivity.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.MainActivity.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
 
 
     <style name="AppTheme.NoActionBar.Classic" parent="AppTheme.Classic">
@@ -54,6 +55,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="AppTheme.Black" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/blackTheme_colorPrimary</item>
         <item name="colorPrimaryDark">@color/blackTheme_colorPrimaryDark</item>

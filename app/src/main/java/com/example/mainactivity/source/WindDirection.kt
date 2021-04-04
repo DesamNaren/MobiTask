@@ -24,7 +24,10 @@ enum class WindDirection {
         ): WindDirection {
             val directions: Array<WindDirection> = WindDirection.values()
             val availableNumberOfDirections = directions.size
-            val direction = WeatherInfo.windDirectionDegreeToIndex(degree, numberOfDirections)* availableNumberOfDirections / numberOfDirections
+            val direction = WeatherInfo.windDirectionDegreeToIndex(
+                degree,
+                numberOfDirections
+            ) * availableNumberOfDirections / numberOfDirections
             return directions[direction]
         }
     }

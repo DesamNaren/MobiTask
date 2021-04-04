@@ -60,6 +60,7 @@ object UnitConverter {
         }
         return result
     }
+
     fun convertTemperature(temperature: Float, sp: SharedPreferences): Float {
         return if (sp.getString("unit", "°C") == "°C") {
             kelvinToCelsius(temperature)

@@ -1,15 +1,9 @@
 package com.example.mainactivity.repository
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.cgg.virtuokotlin.network.getNetworkService
 import com.cgg.virtuokotlin.network.getWeatherService
 import com.example.mainactivity.BuildConfig
-import com.example.mainactivity.db.dao.StateDao
-import com.example.mainactivity.db.database.AppDB
 import com.example.mainactivity.source.LongWeatherData
-import com.example.mainactivity.source.StatesData
-import com.example.mainactivity.source.TokenData
 import com.example.mainactivity.source.WeatherData
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,7 +13,7 @@ class WeatherRepository {
     private val weatherRes = MutableLiveData<WeatherData>()
     private val longWeatherRes = MutableLiveData<LongWeatherData>()
 
-    fun callWeatherAPI(name:String): MutableLiveData<WeatherData> {
+    fun callWeatherAPI(name: String): MutableLiveData<WeatherData> {
         if (weatherRes.value != null) {
             return weatherRes
         }
@@ -43,10 +37,10 @@ class WeatherRepository {
     }
 
 
-  fun callLongWeatherAPI(name:String): MutableLiveData<LongWeatherData> {
-      if (longWeatherRes.value != null) {
-          return longWeatherRes
-      }
+    fun callLongWeatherAPI(name: String): MutableLiveData<LongWeatherData> {
+        if (longWeatherRes.value != null) {
+            return longWeatherRes
+        }
         val vService = getWeatherService()
         val call = vService.getLongWeatherInfoAPI(name, BuildConfig.APP_ID)
 

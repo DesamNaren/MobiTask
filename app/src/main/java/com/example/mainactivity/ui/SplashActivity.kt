@@ -27,7 +27,10 @@ class SplashActivity : BaseActivity() {
                     ViewModelProvider(this).get(MobiViewModel::class.java)
 
                 viewModel.getSessionToken().observe(this, Observer { tokenData ->
-                    preferencesEditor.putString(AppConstants.SESSION_TOKEN, "Bearer " +tokenData!!.auth_token)
+                    preferencesEditor.putString(
+                        AppConstants.SESSION_TOKEN,
+                        "Bearer " + tokenData!!.auth_token
+                    )
                     preferencesEditor.commit()
                     val newIntent = Intent(this@SplashActivity, MainActivity::class.java)
                     startActivity(newIntent)

@@ -10,7 +10,7 @@
         android:contentDescription="@string/app_name"
         android:src="@android:drawable/star_big_off"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <TextView
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"

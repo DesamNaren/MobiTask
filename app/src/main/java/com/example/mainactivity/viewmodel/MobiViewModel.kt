@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mainactivity.repository.MobiRepository
-import com.example.mainactivity.source.StatesData
 import com.example.mainactivity.source.TokenData
 
 class MobiViewModel : ViewModel() {
@@ -14,7 +13,6 @@ class MobiViewModel : ViewModel() {
         sessionRes = MobiRepository().callSessionAPI()
         return sessionRes
     }
-
 
 
 }

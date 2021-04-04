@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
-
 import androidx.lifecycle.LiveData;
 
 import com.example.mainactivity.db.dao.StateDao;

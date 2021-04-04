@@ -23,7 +23,7 @@ data class weather(val id: Long, val main: String, val description: String, val 
 data class main(
     val temp: Double, val feels_like: Double, val temp_min: Double,
     val temp_max: Double, val pressure: Long, val humidity: Long,
-    val sea_level: Long, val grnd_level: Long, val temp_kf:Long
+    val sea_level: Long, val grnd_level: Long, val temp_kf: Long
 )
 
 

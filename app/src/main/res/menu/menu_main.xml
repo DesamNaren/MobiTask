@@ -1,38 +1,36 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<menu xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activities.MainActivity">
-<!--    <item-->
-<!--        android:visible="false"-->
-<!--        android:id="@+id/action_refresh"-->
-<!--        android:icon="@drawable/ic_refresh_white_24dp"-->
-<!--        android:title="@string/action_refresh"-->
-<!--        app:showAsAction="always" />-->
-<!--    <item-->
-<!--        android:visible="false"-->
-<!--        android:id="@+id/action_search"-->
-<!--        android:icon="@drawable/ic_magnify_white_24dp"-->
-<!--        android:title="@string/action_search"-->
-<!--        app:showAsAction="never" />-->
-<!--&lt;!&ndash;    &lt;!&ndash;<item&ndash;&gt;-->
-<!--&lt;!&ndash;        android:id="@+id/action_map"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:icon="@drawable/ic_map_white_24dp"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:title="@string/action_weather_map"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:showAsAction="ifRoom" />&ndash;&gt;-->
-<!--&lt;!&ndash;    <item&ndash;&gt;-->
-<!--&lt;!&ndash;        android:id="@+id/action_graphs"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:title="@string/action_graphs"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:showAsAction="never" />&ndash;&gt;-->
-<!--&lt;!&ndash;    <item&ndash;&gt;-->
-<!--&lt;!&ndash;        android:id="@+id/action_location"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:title="@string/setting_auto_detect_location"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:showAsAction="never" />&ndash;&gt;-->
-<!--&lt;!&ndash;    <item&ndash;&gt;-->
-<!--&lt;!&ndash;        android:id="@+id/action_settings"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:title="@string/action_settings"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:showAsAction="never" />&ndash;&gt;-->
-<!--&lt;!&ndash;    <item&ndash;&gt;-->
-<!--&lt;!&ndash;        android:id="@+id/action_about"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:title="@string/action_about"&ndash;&gt;-->
-<!--&lt;!&ndash;        app:showAsAction="never" />&ndash;&gt;&ndash;&gt;-->
+    <!--    <item-->
+    <!--        android:visible="false"-->
+    <!--        android:id="@+id/action_refresh"-->
+    <!--        android:icon="@drawable/ic_refresh_white_24dp"-->
+    <!--        android:title="@string/action_refresh"-->
+    <!--        app:showAsAction="always" />-->
+    <!--    <item-->
+    <!--        android:visible="false"-->
+    <!--        android:id="@+id/action_search"-->
+    <!--        android:icon="@drawable/ic_magnify_white_24dp"-->
+    <!--        android:title="@string/action_search"-->
+    <!--        app:showAsAction="never" />-->
+    <!--&lt;!&ndash;    &lt;!&ndash;<item&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:id="@+id/action_map"&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:icon="@drawable/ic_map_white_24dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:title="@string/action_weather_map"&ndash;&gt;-->
+    <!--&lt;!&ndash;        app:showAsAction="ifRoom" />&ndash;&gt;-->
+    <!--&lt;!&ndash;    <item&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:id="@+id/action_graphs"&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:title="@string/action_graphs"&ndash;&gt;-->
+    <!--&lt;!&ndash;        app:showAsAction="never" />&ndash;&gt;-->
+    <!--&lt;!&ndash;    <item&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:id="@+id/action_location"&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:title="@string/setting_auto_detect_location"&ndash;&gt;-->
+    <!--&lt;!&ndash;        app:showAsAction="never" />&ndash;&gt;-->
+    <!--&lt;!&ndash;    <item&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:id="@+id/action_settings"&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:title="@string/action_settings"&ndash;&gt;-->
+    <!--&lt;!&ndash;        app:showAsAction="never" />&ndash;&gt;-->
+    <!--&lt;!&ndash;    <item&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:id="@+id/action_about"&ndash;&gt;-->
+    <!--&lt;!&ndash;        android:title="@string/action_about"&ndash;&gt;-->
+    <!--&lt;!&ndash;        app:showAsAction="never" />&ndash;&gt;&ndash;&gt;-->
 </menu>

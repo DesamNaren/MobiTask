@@ -3,7 +3,6 @@ package com.example.mainactivity.application
 import android.app.Application
 import android.content.SharedPreferences
 import com.example.mainactivity.utilities.AppConstants
-import com.google.gson.Gson
 
 class MobiApplication : Application() {
     companion object {

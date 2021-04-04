@@ -14,6 +14,7 @@ class WeatherInfo {
     var description: String? = null
     var wind: String? = null
     var windDirectionDegree: Double? = null
+
     var pressure: String? = null
     var humidity: String? = null
     var rain: String? = null

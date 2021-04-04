@@ -1,4 +1,4 @@
-package com.example.mainactivity.ui.home
+package com.example.mainactivity.ui.map
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

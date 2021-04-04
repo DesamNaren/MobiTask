@@ -31,7 +31,7 @@ import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 
-val VIRTUO_BASE_URL = BuildConfig.SERVER_URL
+val BASE_URL = BuildConfig.SERVER_URL
 val WEATHER_BASE_URL = BuildConfig.WEATHER_SERVER_URL
 
 private val service: MobiNetwork by lazy {
@@ -42,7 +42,7 @@ private val service: MobiNetwork by lazy {
         .build()
 
     val retrofit = Retrofit.Builder()
-        .baseUrl(VIRTUO_BASE_URL)
+        .baseUrl(BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()

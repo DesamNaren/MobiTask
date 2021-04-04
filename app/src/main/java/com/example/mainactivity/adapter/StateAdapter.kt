@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mainactivity.R
@@ -28,13 +29,12 @@ class StateAdapter(var context: Context, private val list: List<StatesData>?, pr
         holder.listItemBinding.stateData = dataModel
         if(dataModel.fav) {
             holder.listItemBinding.favIv.setImageDrawable(
-                context.resources
-                    .getDrawable(android.R.drawable.star_big_on)
+                ResourcesCompat.getDrawable(context.resources, android.R.drawable.star_big_on, null)
             )
         }else {
             holder.listItemBinding.favIv.setImageDrawable(
-                context.resources
-                    .getDrawable(android.R.drawable.star_big_off)
+                ResourcesCompat.getDrawable(context.resources, android.R.drawable.star_big_off, null)
+
             )
         }
         holder.listItemBinding.favIv.setOnClickListener {
@@ -59,16 +59,12 @@ class StateAdapter(var context: Context, private val list: List<StatesData>?, pr
         return if (list != null && list.isNotEmpty()) list.size else 0
     }
 
-    class ItemHolder(listItemBinding: StatesItemBinding) :
+    class ItemHolder(var listItemBinding: StatesItemBinding) :
         RecyclerView.ViewHolder(listItemBinding.root) {
-        var listItemBinding: StatesItemBinding
         fun bind() {
             listItemBinding.executePendingBindings()
         }
 
-        init {
-            this.listItemBinding = listItemBinding
-        }
     }
 
 

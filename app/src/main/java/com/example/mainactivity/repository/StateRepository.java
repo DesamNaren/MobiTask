@@ -10,19 +10,16 @@ import androidx.lifecycle.LiveData;
 
 import com.example.mainactivity.db.dao.StateDao;
 import com.example.mainactivity.db.database.AppDB;
-import com.example.mainactivity.db.database.AppDataBase;
 import com.example.mainactivity.interfaces.StatesInterface;
 import com.example.mainactivity.source.StatesData;
 
 import java.util.List;
 
-import retrofit2.http.PUT;
-
 public class StateRepository {
     private StateDao stateDao;
 
     public void insertStates(final StatesInterface statesInterface, final List<StatesData> statesData, final Context context) {
-        AppDB appDataBase = AppDataBase.Companion.getDatabase(context);
+        AppDB appDataBase = AppDB.getDatabase(context);
         if (appDataBase != null) {
             stateDao = appDataBase.stateDao();
         }
@@ -60,7 +57,7 @@ public class StateRepository {
                           String name,
                           Boolean flag,
                           final Context context) {
-        AppDB appDataBase = AppDataBase.Companion.getDatabase(context);
+        AppDB appDataBase = AppDB.getDatabase(context);
         if (appDataBase != null) {
             stateDao = appDataBase.stateDao();
         }
@@ -96,7 +93,7 @@ public class StateRepository {
     public void deleteItem(final StatesInterface statesInterface,
                            String name,
                            final Context context) {
-        AppDB appDataBase = AppDataBase.Companion.getDatabase(context);
+        AppDB appDataBase = AppDB.getDatabase(context);
         if (appDataBase != null) {
             stateDao = appDataBase.stateDao();
         }
@@ -137,7 +134,7 @@ public class StateRepository {
             String name,
             final Context context) {
 
-        AppDB appDataBase = AppDataBase.Companion.getDatabase(context);
+        AppDB appDataBase = AppDB.getDatabase(context);
         if (appDataBase != null) {
             stateDao = appDataBase.stateDao();
         }

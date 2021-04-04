@@ -44,16 +44,6 @@ class Utils {
             return result
         }
 
-        fun hideKeyboard(context: Context, mView: View) {
-            try {
-                val imm =
-                    context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(mView.windowToken, 0)
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-            }
-        }
-
         fun getLocationAddress(context: Context?, mLat: Double, mLong: Double): List<Address> {
             var addresses: List<Address> = ArrayList()
             val geoCoder = Geocoder(context, Locale.getDefault())

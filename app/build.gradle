@@ -25,6 +25,7 @@ android {
             buildConfigField("String", "USER_EMAIL", "\"narendrakumar.d@cgg.gov.in\"")
             buildConfigField("String", "API_TOKEN", "\"fbepyP1PkzEUI5O3nupISaxSRshN66kHApGlLu62eAuPyKx3AXzKp1LyHaXDya7o5sI\"")
             buildConfigField("String", "APP_ID", "\"d16a7b466b9bb72f88fa6569375410c9\"")
+            buildConfigField("String", "HELP_URL", "\"https://drive.google.com/file/d/1kk_G1Fr63QyyUdq1l2Q7Nf4vRRaPs4Xe/view\"")
         }
         release {
             minifyEnabled false

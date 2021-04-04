@@ -9,7 +9,6 @@ import com.example.mainactivity.source.TokenData
 
 class MobiViewModel : ViewModel() {
     lateinit var sessionRes: MutableLiveData<TokenData?>
-    lateinit var stateRes: MutableLiveData<List<StatesData>?>
 
     fun getSessionToken(): LiveData<TokenData?> {
         sessionRes = MobiRepository().callSessionAPI()

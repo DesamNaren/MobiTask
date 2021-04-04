@@ -23,9 +23,5 @@ class MobiApplication : Application() {
         fun getPreferencesEditor(): SharedPreferences.Editor? {
             return getPreferences()!!.edit();
         }
-
-        fun getGson(): Gson {
-            return Gson()
-        }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.mainactivity.ui;
+package com.example.mainactivity.ui.map;
 
 
 import android.annotation.SuppressLint;
@@ -13,21 +13,24 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.mainactivity.R;
 import com.example.mainactivity.adapter.ViewPagerAdapter;
-import com.example.mainactivity.adapter.WeatherRecyclerAdapter;
+import com.example.mainactivity.adapter.WeatherAdapter;
 import com.example.mainactivity.application.MobiApplication;
-import com.example.mainactivity.databinding.ActivityScrollingBinding;
+import com.example.mainactivity.databinding.ActivityWeatherBinding;
 import com.example.mainactivity.source.LongWeatherData;
 import com.example.mainactivity.source.WeatherInfo;
 import com.example.mainactivity.source.WeatherData;
@@ -38,9 +41,10 @@ import com.example.mainactivity.source.main1;
 import com.example.mainactivity.source.sys;
 import com.example.mainactivity.source.wind;
 import com.example.mainactivity.source.wind1;
-import com.example.mainactivity.ui.home.WeatherViewModel;
+import com.example.mainactivity.ui.map.RVBaseFragment;
+import com.example.mainactivity.ui.map.WeatherViewModel;
 import com.example.mainactivity.utilities.AppConstants;
-import com.example.mainactivity.utilities.UnitConvertor;
+import com.example.mainactivity.utilities.UnitConverter;
 
 import org.json.JSONObject;
 
@@ -54,21 +58,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.content.Context.MODE_PRIVATE;
 
-public class MainWeatherActivity extends AppCompatActivity {
 
-    private ActivityScrollingBinding binding;
-    // Time in milliseconds; only reload weather if last update is longer ago than this value
+public class WeatherFragment extends Fragment {
+
+    private ActivityWeatherBinding binding;
     private static final int NO_UPDATE_REQUIRED_THRESHOLD = 300000;
-
     private static final Map<String, Integer> speedUnits = new HashMap<>(3);
     private static final Map<String, Integer> pressUnits = new HashMap<>(3);
     private static boolean mappingsInitialised = false;
-
     Typeface weatherFont;
     WeatherInfo todayWeatherInfo = new WeatherInfo();
-
-
     ProgressDialog progressDialog;
 
     int theme;
@@ -82,12 +83,12 @@ public class MainWeatherActivity extends AppCompatActivity {
     private ImageView back_button_;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Initialize the associated SharedPreferences file with default values
-        PreferenceManager.setDefaultValues(this, R.xml.prefs, false);
+        PreferenceManager.setDefaultValues(requireActivity(), R.xml.prefs, false);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        this.setTheme(theme = getTheme(prefs.getString("theme", "fresh")));
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        requireActivity().setTheme(theme = getTheme(prefs.getString("theme", "fresh")));
         boolean darkTheme = theme == R.style.AppTheme_NoActionBar_Dark ||
                 theme == R.style.AppTheme_NoActionBar_Classic_Dark;
         boolean blackTheme = theme == R.style.AppTheme_NoActionBar_Black ||
@@ -96,8 +97,8 @@ public class MainWeatherActivity extends AppCompatActivity {
 
         // Initiate activity
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_scrolling);
-        progressDialog = new ProgressDialog(this);
+        binding = DataBindingUtil.inflate(inflater, R.layout.activity_weather, container, false);
+        progressDialog = new ProgressDialog(requireActivity());
 
         if (darkTheme) {
             binding.toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay_Dark);
@@ -105,19 +106,19 @@ public class MainWeatherActivity extends AppCompatActivity {
             binding.toolbar.setPopupTheme(R.style.AppTheme_PopupOverlay_Black);
         }
 
-        setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        setSupportActionBar(binding.toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//
+//        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onBackPressed();
+//            }
+//        });
 
-        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-        Intent intent = this.getIntent();
+        Intent intent = requireActivity().getIntent();
         binding.todayTemperature.setText("" + intent.getStringExtra("WEATHER_VALUE"));
-        weatherFont = Typeface.createFromAsset(this.getAssets(), "fonts/weather.ttf");
+        weatherFont = Typeface.createFromAsset(requireActivity().getAssets(), "fonts/weather.ttf");
         binding.todayIcon.setTypeface(weatherFont);
         destroyed = false;
 
@@ -126,18 +127,19 @@ public class MainWeatherActivity extends AppCompatActivity {
         updateLastUpdateTime();
 
         // Set autoupdater
-        //AlarmReceiver.setRecurringAlarm(this);
+        //AlarmReceiver.setRecurringAlarm(requireActivity());
+        return binding.getRoot();
     }
 
 
-    public WeatherRecyclerAdapter getAdapter(int id) {
-        WeatherRecyclerAdapter weatherRecyclerAdapter;
+    public WeatherAdapter getAdapter(int id) {
+        WeatherAdapter weatherRecyclerAdapter;
         if (id == 0) {
-            weatherRecyclerAdapter = new WeatherRecyclerAdapter(this, longTermTodayWeatherInfo);
+            weatherRecyclerAdapter = new WeatherAdapter(requireActivity(), longTermTodayWeatherInfo);
         } else if (id == 1) {
-            weatherRecyclerAdapter = new WeatherRecyclerAdapter(this, longTermTomorrowWeatherInfo);
+            weatherRecyclerAdapter = new WeatherAdapter(requireActivity(), longTermTomorrowWeatherInfo);
         } else {
-            weatherRecyclerAdapter = new WeatherRecyclerAdapter(this, longTermWeatherInfo);
+            weatherRecyclerAdapter = new WeatherAdapter(requireActivity(), longTermWeatherInfo);
         }
         return weatherRecyclerAdapter;
     }
@@ -152,20 +154,19 @@ public class MainWeatherActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (getTheme(PreferenceManager.getDefaultSharedPreferences(this).getString("theme", "fresh")) != theme) {
+        if (getTheme(PreferenceManager.getDefaultSharedPreferences(requireActivity()).getString("theme", "fresh")) != theme) {
             // Restart activity to apply theme
-            overridePendingTransition(0, 0);
-            finish();
-            overridePendingTransition(0, 0);
-            startActivity(getIntent());
+            requireActivity().overridePendingTransition(0, 0);
+            requireActivity().finish();
+            requireActivity().overridePendingTransition(0, 0);
+            startActivity(requireActivity().getIntent());
         } else if (shouldUpdate() && isNetworkAvailable()) {
             getTodayWeather();
-//            getLongTermWeather();
         }
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         destroyed = true;
     }
@@ -177,12 +178,12 @@ public class MainWeatherActivity extends AppCompatActivity {
 
         WeatherViewModel viewModel = new WeatherViewModel();
         LiveData<WeatherData> liveData = viewModel.getStates(name);
-        liveData.observe(this, new Observer<WeatherData>() {
+        liveData.observe(requireActivity(), new Observer<WeatherData>() {
             @Override
             public void onChanged(WeatherData weatherData) {
                 try {
-                    liveData.removeObservers(MainWeatherActivity.this);
-                    if (weatherData==null) {
+                    liveData.removeObservers(requireActivity());
+                    if (weatherData == null) {
                         notFoundAlert();
                         return;
                     }
@@ -197,7 +198,7 @@ public class MainWeatherActivity extends AppCompatActivity {
                     todayWeatherInfo.setCountry(country);
 
                     coord coordinates = weatherData.getCoord();
-                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(MainWeatherActivity.this);
+                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(requireActivity());
                     sp.edit().putFloat("latitude", (float) coordinates.getLat());
                     sp.edit().putFloat("longitude", (float) coordinates.getLng());
 
@@ -208,7 +209,7 @@ public class MainWeatherActivity extends AppCompatActivity {
                     wind windObj = weatherData.getWind();
                     todayWeatherInfo.setWind(String.valueOf(windObj.getSpeed()));
                     if (windObj.getDeg() > 0) {
-                        todayWeatherInfo.setWindDirectionDegree(Double.valueOf(windObj.getDeg()));
+                        todayWeatherInfo.setWindDirectionDegree((double) windObj.getDeg());
                     } else {
                         todayWeatherInfo.setWindDirectionDegree(null);
                     }
@@ -243,15 +244,15 @@ public class MainWeatherActivity extends AppCompatActivity {
             }
         });
 
-       LiveData<LongWeatherData> liveDataLong = viewModel.getLongWeather(name);
-        liveDataLong.observe(this, new Observer<LongWeatherData>() {
+        LiveData<LongWeatherData> liveDataLong = viewModel.getLongWeather(name);
+        liveDataLong.observe(requireActivity(), new Observer<LongWeatherData>() {
             @Override
             public void onChanged(LongWeatherData longWeatherData) {
                 int i;
                 try {
-                    liveDataLong.removeObservers(MainWeatherActivity.this);
+                    liveDataLong.removeObservers(requireActivity());
 
-                    if (longWeatherData==null) {
+                    if (longWeatherData == null) {
                         notFoundAlert();
                         return;
                     }
@@ -323,29 +324,29 @@ public class MainWeatherActivity extends AppCompatActivity {
         String icon = "";
         if (actualId == 800) {
             if (hourOfDay >= 7 && hourOfDay < 20) {
-                icon = this.getString(R.string.weather_sunny);
+                icon = requireActivity().getString(R.string.weather_sunny);
             } else {
-                icon = this.getString(R.string.weather_clear_night);
+                icon = requireActivity().getString(R.string.weather_clear_night);
             }
         } else {
             switch (id) {
                 case 2:
-                    icon = this.getString(R.string.weather_thunder);
+                    icon = requireActivity().getString(R.string.weather_thunder);
                     break;
                 case 3:
-                    icon = this.getString(R.string.weather_drizzle);
+                    icon = requireActivity().getString(R.string.weather_drizzle);
                     break;
                 case 7:
-                    icon = this.getString(R.string.weather_foggy);
+                    icon = requireActivity().getString(R.string.weather_foggy);
                     break;
                 case 8:
-                    icon = this.getString(R.string.weather_cloudy);
+                    icon = requireActivity().getString(R.string.weather_cloudy);
                     break;
                 case 6:
-                    icon = this.getString(R.string.weather_snowy);
+                    icon = requireActivity().getString(R.string.weather_snowy);
                     break;
                 case 5:
-                    icon = this.getString(R.string.weather_rainy);
+                    icon = requireActivity().getString(R.string.weather_rainy);
                     break;
             }
         }
@@ -366,7 +367,7 @@ public class MainWeatherActivity extends AppCompatActivity {
 
     private void updateTodayWeatherUI() {
         try {
-            if (todayWeatherInfo.getCountry().isEmpty()) {
+            if (todayWeatherInfo==null || todayWeatherInfo.getCountry().isEmpty()) {
                 return;
             }
         } catch (Exception e) {
@@ -376,20 +377,20 @@ public class MainWeatherActivity extends AppCompatActivity {
         try {
             String city = todayWeatherInfo.getCity();
             String country = todayWeatherInfo.getCountry();
-            timeFormat = android.text.format.DateFormat.getTimeFormat(getApplicationContext());
-            getSupportActionBar().setTitle(city + (country.isEmpty() ? "" : ", " + country));
+            timeFormat = android.text.format.DateFormat.getTimeFormat(requireActivity().getApplicationContext());
+//            requireActivity().getSupportActionBar().setTitle(city + (country.isEmpty() ? "" : ", " + country));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(MainWeatherActivity.this);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(requireActivity());
 
         // Temperature
 
         float temperature = 0;
         try {
 
-            temperature = UnitConvertor.convertTemperature(Float.parseFloat(todayWeatherInfo.getTemperature()), sp);
+            temperature = UnitConverter.INSTANCE.INSTANCE.convertTemperature(Float.parseFloat(todayWeatherInfo.getTemperature()), sp);
             if (sp.getBoolean("temperatureInteger", false)) {
                 temperature = Math.round(temperature);
             }
@@ -401,7 +402,7 @@ public class MainWeatherActivity extends AppCompatActivity {
         String rainString = null;
         try {
             double rain = Double.parseDouble(todayWeatherInfo.getRain());
-            rainString = UnitConvertor.getRainString(rain, sp);
+            rainString = UnitConverter.INSTANCE.getRainString(rain, sp);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -414,12 +415,12 @@ public class MainWeatherActivity extends AppCompatActivity {
             e.printStackTrace();
             wind = 0;
         }
-        wind = UnitConvertor.convertWind(wind, sp);
+        wind = UnitConverter.INSTANCE.convertWind(wind, sp);
 
         // Pressure
         double pressure = 0;
         try {
-            pressure = UnitConvertor.convertPressure((float) Double.parseDouble(todayWeatherInfo.getPressure()), sp);
+            pressure = UnitConverter.INSTANCE.convertPressure((float) Double.parseDouble(todayWeatherInfo.getPressure()), sp);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -431,12 +432,12 @@ public class MainWeatherActivity extends AppCompatActivity {
                     todayWeatherInfo.getDescription().substring(1));
             if (sp.getString("speedUnit", "m/s").equals("bft")) {
                 binding.todayWind.setText(getString(R.string.wind) + ": " +
-                        UnitConvertor.getBeaufortName((int) wind) +
-                        (todayWeatherInfo.isWindDirectionAvailable() ? " " + getWindDirectionString(sp, this, todayWeatherInfo) : ""));
+                        UnitConverter.INSTANCE.getBeaufortName((int) wind) +
+                        (todayWeatherInfo.isWindDirectionAvailable() ? " " + getWindDirectionString(sp, requireActivity(), todayWeatherInfo) : ""));
             } else {
                 binding.todayWind.setText(getString(R.string.wind) + ": " + new DecimalFormat("#.0").format(wind) + " " +
                         localize(sp, "speedUnit", "m/s") +
-                        (todayWeatherInfo.isWindDirectionAvailable() ? " " + getWindDirectionString(sp, this, todayWeatherInfo) : ""));
+                        (todayWeatherInfo.isWindDirectionAvailable() ? " " + getWindDirectionString(sp, requireActivity(), todayWeatherInfo) : ""));
             }
             binding.todayPressure.setText(getString(R.string.pressure) + ": " + new DecimalFormat("#.0").format(pressure) + " " +
                     localize(sp, "pressureUnit", "hPa"));
@@ -454,25 +455,25 @@ public class MainWeatherActivity extends AppCompatActivity {
             return;
         }
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
 
         Bundle bundleToday = new Bundle();
         bundleToday.putInt("day", 0);
-        RecyclerViewFragment recyclerViewFragmentToday = new RecyclerViewFragment();
-        recyclerViewFragmentToday.setArguments(bundleToday);
-        viewPagerAdapter.addFragment(recyclerViewFragmentToday, getString(R.string.today));
+        RVBaseFragment RVBaseFragmentToday = new RVBaseFragment();
+        RVBaseFragmentToday.setArguments(bundleToday);
+        viewPagerAdapter.addFragment(RVBaseFragmentToday, getString(R.string.today));
 
         Bundle bundleTomorrow = new Bundle();
         bundleTomorrow.putInt("day", 1);
-        RecyclerViewFragment recyclerViewFragmentTomorrow = new RecyclerViewFragment();
-        recyclerViewFragmentTomorrow.setArguments(bundleTomorrow);
-        viewPagerAdapter.addFragment(recyclerViewFragmentTomorrow, getString(R.string.tomorrow));
+        RVBaseFragment RVBaseFragmentTomorrow = new RVBaseFragment();
+        RVBaseFragmentTomorrow.setArguments(bundleTomorrow);
+        viewPagerAdapter.addFragment(RVBaseFragmentTomorrow, getString(R.string.tomorrow));
 
         Bundle bundle = new Bundle();
         bundle.putInt("day", 2);
-        RecyclerViewFragment recyclerViewFragment = new RecyclerViewFragment();
-        recyclerViewFragment.setArguments(bundle);
-        viewPagerAdapter.addFragment(recyclerViewFragment, getString(R.string.later));
+        RVBaseFragment RVBaseFragment = new RVBaseFragment();
+        RVBaseFragment.setArguments(bundle);
+        viewPagerAdapter.addFragment(RVBaseFragment, getString(R.string.later));
 
         int currentPage = binding.viewPager.getCurrentItem();
 
@@ -487,23 +488,23 @@ public class MainWeatherActivity extends AppCompatActivity {
     }
 
     private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     private boolean shouldUpdate() {
-        long lastUpdate = PreferenceManager.getDefaultSharedPreferences(this).getLong("lastUpdate", -1);
-        boolean cityChanged = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("cityChanged", false);
+        long lastUpdate = PreferenceManager.getDefaultSharedPreferences(requireActivity()).getLong("lastUpdate", -1);
+        boolean cityChanged = PreferenceManager.getDefaultSharedPreferences(requireActivity()).getBoolean("cityChanged", false);
         // Update if never checked or last update is longer ago than specified threshold
         return cityChanged || lastUpdate < 0 || (Calendar.getInstance().getTimeInMillis() - lastUpdate) > NO_UPDATE_REQUIRED_THRESHOLD;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -543,7 +544,7 @@ public class MainWeatherActivity extends AppCompatActivity {
     }
 
     private String localize(SharedPreferences sp, String preferenceKey, String defaultValueKey) {
-        return localize(sp, this, preferenceKey, defaultValueKey);
+        return localize(sp, requireActivity(), preferenceKey, defaultValueKey);
     }
 
     public static String localize(SharedPreferences sp, Context context, String preferenceKey, String defaultValueKey) {
@@ -587,7 +588,7 @@ public class MainWeatherActivity extends AppCompatActivity {
 
     private void updateLastUpdateTime() {
         updateLastUpdateTime(
-                PreferenceManager.getDefaultSharedPreferences(this).getLong("lastUpdate", -1)
+                PreferenceManager.getDefaultSharedPreferences(requireActivity()).getLong("lastUpdate", -1)
         );
     }
 
@@ -597,7 +598,7 @@ public class MainWeatherActivity extends AppCompatActivity {
             // No time
             binding.lastUpdate.setText("");
         } else {
-            binding.lastUpdate.setText(getString(R.string.last_update, formatTimeWithDayIfNotToday(this, timeInMillis)));
+            binding.lastUpdate.setText(getString(R.string.last_update, formatTimeWithDayIfNotToday(requireActivity(), timeInMillis)));
         }
     }
 
@@ -632,14 +633,14 @@ public class MainWeatherActivity extends AppCompatActivity {
     }
 
 
-    void notFoundAlert(){
-        AlertDialog.Builder alert = new AlertDialog.Builder(MainWeatherActivity.this);
+    void notFoundAlert() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(requireActivity());
         alert.setCancelable(false);
         alert.setMessage("city not found");
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
+                requireActivity().finish();
             }
         });
         alert.show();

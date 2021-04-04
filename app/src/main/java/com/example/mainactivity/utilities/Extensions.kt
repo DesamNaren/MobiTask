@@ -13,14 +13,6 @@ object Extensions {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-//    fun Context.firebaseToken(preferencesEditor: SharedPreferences.Editor) {
-//        FirebaseInstallations.getInstance().getToken(false).addOnCompleteListener {
-//            Log.e("FCM_TOKEN", it.result!!.token)
-//            preferencesEditor.putString(AppConstants.FCM_TOKEN, it.result!!.token)
-//            preferencesEditor.commit()
-//        }
-//    }
-
 }
 
 

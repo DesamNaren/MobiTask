@@ -8,22 +8,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mainactivity.R;
 
 
-public class WeatherViewHolder extends RecyclerView.ViewHolder {
+public class WeatherHolder extends RecyclerView.ViewHolder {
     public TextView itemDate;
     public TextView itemTemperature;
     public TextView itemDescription;
-    public TextView itemyWind;
+    public TextView itemWind;
     public TextView itemPressure;
     public TextView itemHumidity;
     public TextView itemIcon;
     public View lineView;
 
-    public WeatherViewHolder(View view) {
+    public WeatherHolder(View view) {
         super(view);
         this.itemDate = (TextView) view.findViewById(R.id.itemDate);
         this.itemTemperature = (TextView) view.findViewById(R.id.itemTemperature);
         this.itemDescription = (TextView) view.findViewById(R.id.itemDescription);
-        this.itemyWind = (TextView) view.findViewById(R.id.itemWind);
+        this.itemWind = (TextView) view.findViewById(R.id.itemWind);
         this.itemPressure = (TextView) view.findViewById(R.id.itemPressure);
         this.itemHumidity = (TextView) view.findViewById(R.id.itemHumidity);
         this.itemIcon = (TextView) view.findViewById(R.id.itemIcon);

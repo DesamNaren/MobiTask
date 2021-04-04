@@ -1,4 +1,4 @@
-package com.example.mainactivity.ui;
+package com.example.mainactivity.ui.map;
 
 
 import android.os.Build;
@@ -13,13 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mainactivity.R;
+import com.example.mainactivity.ui.WeatherActivity;
 
-public class RecyclerViewFragment extends Fragment {
-
-
-    public RecyclerViewFragment() {
-    }
-
+public class RVBaseFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -30,9 +26,10 @@ public class RecyclerViewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recycler_view, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        MainWeatherActivity mainActivity = (MainWeatherActivity) getActivity();
+        WeatherActivity mainActivity = (WeatherActivity) getActivity();
+        assert mainActivity != null;
+        assert bundle != null;
         recyclerView.setAdapter(mainActivity.getAdapter(bundle.getInt("day")));
         return view;
     }
-
 }

@@ -1,7 +1,6 @@
 package com.example.mainactivity.repository;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -19,7 +18,7 @@ public class StateRepository {
     private StateDao stateDao;
 
     public void insertStates(final StatesInterface statesInterface, final List<StatesData> statesData, final Context context) {
-        AppDB appDataBase = AppDB.getDatabase(context);
+        AppDB appDataBase = AppDB.Companion.getDatabase(context);
         if (appDataBase != null) {
             stateDao = appDataBase.stateDao();
         }
@@ -57,7 +56,7 @@ public class StateRepository {
                           String name,
                           Boolean flag,
                           final Context context) {
-        AppDB appDataBase = AppDB.getDatabase(context);
+        AppDB appDataBase = AppDB.Companion.getDatabase(context);
         if (appDataBase != null) {
             stateDao = appDataBase.stateDao();
         }
@@ -68,7 +67,7 @@ public class StateRepository {
 
     public void resetFav(Context context, StatesInterface statesInterface) {
 
-        AppDB appDataBase = AppDB.getDatabase(context);
+        AppDB appDataBase = AppDB.Companion.getDatabase(context);
         if (appDataBase != null) {
             stateDao = appDataBase.stateDao();
             new ResetTask(context, statesInterface).execute();
@@ -103,7 +102,7 @@ public class StateRepository {
     public void deleteItem(final StatesInterface statesInterface,
                            String name,
                            final Context context) {
-        AppDB appDataBase = AppDB.getDatabase(context);
+        AppDB appDataBase = AppDB.Companion.getDatabase(context);
         if (appDataBase != null) {
             stateDao = appDataBase.stateDao();
         }
@@ -167,7 +166,7 @@ public class StateRepository {
             String name,
             final Context context) {
 
-        AppDB appDataBase = AppDB.getDatabase(context);
+        AppDB appDataBase = AppDB.Companion.getDatabase(context);
         if (appDataBase != null) {
             stateDao = appDataBase.stateDao();
         }

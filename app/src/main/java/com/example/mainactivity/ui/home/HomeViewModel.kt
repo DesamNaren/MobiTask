@@ -22,8 +22,8 @@ class HomeViewModel : ViewModel() {
 
     fun getLocalStates(context: Context): LiveData<List<StatesData>> {
         val appDataBase = AppDB.getDatabase(context)
-        val stateDao = appDataBase.stateDao()
+        val stateDao = appDataBase?.stateDao()
 
-        return stateDao.getStatesData()
+        return stateDao?.getStatesData()!!
     }
 }

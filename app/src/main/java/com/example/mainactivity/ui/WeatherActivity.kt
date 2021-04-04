@@ -7,11 +7,8 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Typeface
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -29,7 +26,6 @@ import com.example.mainactivity.ui.map.WeatherViewModel
 import com.example.mainactivity.utilities.AppConstants
 import com.example.mainactivity.utilities.UnitConverter
 import com.example.mainactivity.utilities.Utils
-import org.json.JSONObject
 import java.text.DateFormat
 import java.text.DecimalFormat
 import java.util.*
@@ -177,20 +173,6 @@ public class WeatherActivity : AppCompatActivity() {
                 weatherInfo.windDirectionDegree = windObj.deg.toDouble()
                 weatherInfo.pressure = main.pressure.toString()
                 weatherInfo.humidity = main.humidity.toString()
-
-                //                        JSONObject rainObj = listItem.optJSONObject("rain");
-                //                        String rain = "";
-                //                        if (rainObj != null) {
-                //                            rain = getRainString(rainObj);
-                //                        } else {
-                //                            JSONObject snowObj = listItem.optJSONObject("snow");
-                //                            if (snowObj != null) {
-                //                                rain = getRainString(snowObj);
-                //                            } else {
-                //                                rain = "0";
-                //                            }
-                //                        }
-                //                        weatherInfo.setRain(rain);
                 val idString = weather[0].id.toString()
                 weatherInfo.id = idString
                 val dateMsString = dt.toString() + "000"
@@ -216,6 +198,7 @@ public class WeatherActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("CommitPrefEdits")
     private fun setBaseWeather(weatherData: WeatherData?) {
         if (weatherData == null) {
             notFoundAlert()

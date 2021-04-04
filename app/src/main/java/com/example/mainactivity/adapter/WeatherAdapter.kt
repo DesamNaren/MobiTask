@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mainactivity.R
 import com.example.mainactivity.source.WeatherInfo
-import com.example.mainactivity.ui.map.WeatherFragment
 import com.example.mainactivity.utilities.UnitConverter
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -107,15 +106,15 @@ class WeatherAdapter(
             customHolder.itemIcon.text = weatherInfoItem.icon
             if (sp.getString("speedUnit", "m/s") == "bft") {
                 customHolder.itemWind.text = context.getString(R.string.wind) + ": " +
-                        UnitConverter.getBeaufortName(wind.toInt()) + " " + WeatherFragment.getWindDirectionString(
+                        UnitConverter.getBeaufortName(wind.toInt()) + " " + UnitConverter.getWindDirectionString(
                     sp,
                     context, weatherInfoItem
                 )
             } else {
                 customHolder.itemWind.text =
                     (context.getString(R.string.wind) + ": " + DecimalFormat("#.0").format(wind) + " " +
-                            WeatherFragment.localize(sp, context, "speedUnit", "m/s")
-                            + " " + WeatherFragment.getWindDirectionString(
+                            UnitConverter.localize(sp, context, "speedUnit", "m/s")
+                            + " " + UnitConverter.getWindDirectionString(
                         sp,
                         context,
                         weatherInfoItem
@@ -123,7 +122,7 @@ class WeatherAdapter(
             }
             customHolder.itemPressure.text =
                 context.getString(R.string.pressure) + ": " + DecimalFormat("#.0").format(pressure) + " " +
-                        WeatherFragment.localize(sp, context, "pressureUnit", "hPa")
+                        UnitConverter.localize(sp, context, "pressureUnit", "hPa")
             customHolder.itemHumidity.text =
                 context.getString(R.string.humidity) + ": " + weatherInfoItem.humidity + " %"
         } catch (e: NumberFormatException) {

@@ -2,10 +2,64 @@
 
 package com.example.mainactivity.utilities
 
+import android.content.Context
 import android.content.SharedPreferences
+import com.example.mainactivity.R
+import com.example.mainactivity.source.WeatherInfo
 import java.util.*
 
 object UnitConverter {
+
+    fun getWindDirectionString(
+        sp: SharedPreferences,
+        context: Context?,
+        weatherInfo: WeatherInfo
+    ): String? {
+        try {
+            if (weatherInfo.wind.toDouble() != 0.0) {
+                val pref = sp.getString("windDirectionFormat", null)
+                if ("arrow" == pref) {
+                    return weatherInfo.getWindDirection(8).getArrow(context)
+                } else if ("abbr" == pref) {
+                    return weatherInfo.windDirection.getLocalizedString(context)
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return ""
+    }
+
+    private val speedUnits: MutableMap<String, Int?> = HashMap(3)
+    private val pressUnits: MutableMap<String, Int?> = HashMap(3)
+
+
+    fun localize(
+        sp: SharedPreferences,
+        context: Context,
+        preferenceKey: String,
+        defaultValueKey: String?
+    ): String? {
+        speedUnits["m/s"] = R.string.speed_unit_mps
+        speedUnits["kph"] = R.string.speed_unit_kph
+        speedUnits["mph"] = R.string.speed_unit_mph
+        speedUnits["kn"] = R.string.speed_unit_kn
+        pressUnits["hPa"] = R.string.pressure_unit_hpa
+        pressUnits["kPa"] = R.string.pressure_unit_kpa
+        pressUnits["mm Hg"] = R.string.pressure_unit_mmhg
+        val preferenceValue = sp.getString(preferenceKey, defaultValueKey)
+        var result = preferenceValue
+        if ("speedUnit" == preferenceKey) {
+            if (speedUnits.containsKey(preferenceValue)) {
+                result = context.getString(speedUnits[preferenceValue]!!)
+            }
+        } else if ("pressureUnit" == preferenceKey) {
+            if (pressUnits.containsKey(preferenceValue)) {
+                result = context.getString(pressUnits.get(preferenceValue)!!)
+            }
+        }
+        return result
+    }
     fun convertTemperature(temperature: Float, sp: SharedPreferences): Float {
         return if (sp.getString("unit", "°C") == "°C") {
             kelvinToCelsius(temperature)

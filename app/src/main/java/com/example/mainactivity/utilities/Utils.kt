@@ -1,14 +1,14 @@
 package com.example.mainactivity.utilities
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.location.Address
 import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import com.example.mainactivity.source.WeatherInfo
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -59,6 +59,35 @@ class Utils {
                 e.printStackTrace()
             }
             return addresses
+        }
+
+
+        fun getWindDirectionString(
+            sp: SharedPreferences,
+            context: Context?,
+            weatherInfo: WeatherInfo
+        ): String? {
+            try {
+                if (weatherInfo.wind.toDouble() != 0.0) {
+                    val pref = sp.getString("windDirectionFormat", null)
+                    if ("arrow" == pref) {
+                        return weatherInfo.getWindDirection(8).getArrow(context)
+                    } else if ("abbr" == pref) {
+                        return weatherInfo.windDirection.getLocalizedString(context)
+                    }
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+            return ""
+        }
+
+        fun localize(
+            sp: SharedPreferences?,
+            preferenceKey: String?,
+            defaultValueKey: String?
+        ): String? {
+            return localize(sp, preferenceKey, defaultValueKey)
         }
 
     }

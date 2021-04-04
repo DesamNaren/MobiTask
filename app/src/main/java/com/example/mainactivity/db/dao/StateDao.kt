@@ -29,4 +29,7 @@ interface StateDao {
     @Query("SELECT * from StatesData WHERE state_name LIKE :name")
     fun checkCity(name: String):LiveData<StatesData>
 
+
+    @Query("DELETE FROM StatesData WHERE state_name LIKE :name")
+    fun deleteItem(name: String):Int
 }

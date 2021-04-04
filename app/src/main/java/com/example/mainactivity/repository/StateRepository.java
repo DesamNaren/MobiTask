@@ -70,6 +70,42 @@ public class StateRepository {
 
 
     @SuppressLint("StaticFieldLeak")
+    private class DeleteTask extends AsyncTask<Void, Void, Integer> {
+        String name;
+        StatesInterface statesInterface;
+
+        DeleteTask(StatesInterface statesInterface,
+                   String name) {
+            this.name = name;
+            this.statesInterface = statesInterface;
+        }
+
+
+        @Override
+        protected Integer doInBackground(Void... voids) {
+            return stateDao.deleteItem(name);
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+            statesInterface.stateCount(integer);
+        }
+    }
+
+    public void deleteItem(final StatesInterface statesInterface,
+                           String name,
+                           final Context context) {
+        AppDB appDataBase = AppDataBase.Companion.getDatabase(context);
+        if (appDataBase != null) {
+            stateDao = appDataBase.stateDao();
+        }
+
+        new DeleteTask(statesInterface, name ).execute();
+    }
+
+
+    @SuppressLint("StaticFieldLeak")
     private class UpdateTask extends AsyncTask<Void, Void, Integer> {
         String name;
         Boolean flag;

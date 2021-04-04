@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -45,7 +46,11 @@ class StateAdapter(var context: Context, private val list: List<StatesData>?, pr
         }
 
         holder.listItemBinding.rvItem.setOnClickListener {
-            statesInterface.onItemClick(dataModel.state_name)
+            if(dataModel.fav) {
+                statesInterface.onItemClick(dataModel.state_name)
+            }else{
+                Toast.makeText(context, "Mark city as favourite", Toast.LENGTH_SHORT).show()
+            }
         }
         holder.bind()
     }
@@ -66,6 +71,7 @@ class StateAdapter(var context: Context, private val list: List<StatesData>?, pr
         }
     }
 
+
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
@@ -73,5 +79,6 @@ class StateAdapter(var context: Context, private val list: List<StatesData>?, pr
     override fun getItemViewType(position: Int): Int {
         return position
     }
+
 
 }

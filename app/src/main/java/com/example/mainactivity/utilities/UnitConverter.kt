@@ -16,12 +16,12 @@ object UnitConverter {
         weatherInfo: WeatherInfo
     ): String? {
         try {
-            if (weatherInfo.wind.toDouble() != 0.0) {
+            if (weatherInfo.wind!!.toDouble() != 0.0) {
                 val pref = sp.getString("windDirectionFormat", null)
                 if ("arrow" == pref) {
-                    return weatherInfo.getWindDirection(8).getArrow(context)
+                    return context?.let { weatherInfo.getWindDirection(8).getArrow(it) }
                 } else if ("abbr" == pref) {
-                    return weatherInfo.windDirection.getLocalizedString(context)
+                    return context?.let { weatherInfo.windDirection.getLocalizedString(it) }
                 }
             }
         } catch (e: Exception) {

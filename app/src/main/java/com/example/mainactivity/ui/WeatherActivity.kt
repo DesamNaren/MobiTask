@@ -262,7 +262,7 @@ public class WeatherActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun updateTodayWeatherUI() {
         try {
-            if (todayWeatherInfo.country.isEmpty()) {
+            if (todayWeatherInfo.country?.isEmpty() == true) {
                 return
             }
         } catch (e: Exception) {
@@ -273,7 +273,9 @@ public class WeatherActivity : AppCompatActivity() {
             val city = todayWeatherInfo.city
             val country = todayWeatherInfo.country
             timeFormat = android.text.format.DateFormat.getTimeFormat(applicationContext)
-            supportActionBar!!.setTitle(city + if (country.isEmpty()) "" else ", $country")
+            if (country != null) {
+                supportActionBar!!.setTitle(city + if (country.isEmpty()) "" else ", $country")
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -281,7 +283,7 @@ public class WeatherActivity : AppCompatActivity() {
         var temperature = 0f
         try {
             temperature =
-                UnitConverter.convertTemperature(todayWeatherInfo.temperature.toFloat(), sp)
+                todayWeatherInfo.temperature?.let { UnitConverter.convertTemperature(it.toFloat(), sp) }!!
             if (sp.getBoolean("temperatureInteger", false)) {
                 temperature = Math.round(temperature).toFloat()
             }
@@ -289,7 +291,7 @@ public class WeatherActivity : AppCompatActivity() {
             e.printStackTrace()
         }
         var wind: Double = try {
-            todayWeatherInfo.wind.toDouble()
+            todayWeatherInfo.wind?.toDouble()!!
         } catch (e: Exception) {
             e.printStackTrace()
             0.0
@@ -299,8 +301,10 @@ public class WeatherActivity : AppCompatActivity() {
         var pressure = 0.0
         try {
             pressure =
-                UnitConverter.convertPressure(todayWeatherInfo.pressure.toDouble().toFloat(), sp)
-                    .toDouble()
+                todayWeatherInfo.pressure?.toDouble()?.let {
+                    UnitConverter.convertPressure(it.toFloat(), sp)
+                        .toDouble()
+                }!!
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -311,8 +315,8 @@ public class WeatherActivity : AppCompatActivity() {
                     "°C"
                 )
             binding.todayDescription.text =
-                todayWeatherInfo.description.substring(0, 1).toUpperCase(Locale.ROOT) +
-                        todayWeatherInfo.description.substring(1)
+                todayWeatherInfo.description!!.substring(0, 1).toUpperCase(Locale.ROOT) +
+                        todayWeatherInfo.description!!.substring(1)
             if (sp.getString("speedUnit", "m/s") == "bft") {
                 binding.todayWind.text = getString(R.string.wind) + ": " +
                         UnitConverter.getBeaufortName(wind.toInt()) +
@@ -433,12 +437,12 @@ public class WeatherActivity : AppCompatActivity() {
         weatherInfo: WeatherInfo
     ): String {
         try {
-            if (weatherInfo.wind.toDouble() != 0.0) {
+            if (weatherInfo.wind!!.toDouble() != 0.0) {
                 val pref = sp.getString("windDirectionFormat", null)
                 if ("arrow" == pref) {
-                    return weatherInfo.getWindDirection(8).getArrow(context)
+                    return context?.let { weatherInfo.getWindDirection(8).getArrow(it) }!!
                 } else if ("abbr" == pref) {
-                    return weatherInfo.windDirection.getLocalizedString(context)
+                    return context?.let { weatherInfo.windDirection.getLocalizedString(it) }!!
                 }
             }
         } catch (e: Exception) {

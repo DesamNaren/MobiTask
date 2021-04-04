@@ -34,12 +34,14 @@ class WeatherAdapter(
             val sp = PreferenceManager.getDefaultSharedPreferences(context)
 
             var temperature =
-                UnitConverter.convertTemperature(weatherInfoItem.temperature.toFloat(), sp)
+                weatherInfoItem.temperature?.let { UnitConverter.convertTemperature(it.toFloat(), sp) }
             if (sp.getBoolean("temperatureInteger", false)) {
-                temperature = temperature.roundToInt().toFloat()
+                if (temperature != null) {
+                    temperature = temperature.roundToInt().toFloat()
+                }
             }
             var wind: Double = try {
-                weatherInfoItem.wind.toDouble()
+                weatherInfoItem.wind?.toDouble()!!
             } catch (e: Exception) {
                 e.printStackTrace()
                 0.0
@@ -47,10 +49,12 @@ class WeatherAdapter(
             wind = UnitConverter.convertWind(wind, sp)
 
             // Pressure
-            val pressure = UnitConverter.convertPressure(
-                weatherInfoItem.pressure.toDouble()
-                    .toFloat(), sp
-            ).toDouble()
+            val pressure = weatherInfoItem.pressure?.toDouble()?.let {
+                UnitConverter.convertPressure(
+                    it
+                        .toFloat(), sp
+                ).toDouble()
+            }
             val tz = TimeZone.getDefault()
             val defaultDateFormat = context.resources.getStringArray(R.array.dateFormatsValues)[0]
             var dateFormat = sp.getString("dateFormat", defaultDateFormat)
@@ -86,21 +90,25 @@ class WeatherAdapter(
             }
             customHolder.itemDate.text = dateString
             if (sp.getBoolean("displayDecimalZeroes", false)) {
-                customHolder.itemTemperature.text =
-                    DecimalFormat("#.0").format(temperature.toDouble()) + " " + sp.getString(
-                        "unit",
-                        "°C"
-                    )
+                if (temperature != null) {
+                    customHolder.itemTemperature.text =
+                        DecimalFormat("#.0").format(temperature.toDouble()) + " " + sp.getString(
+                            "unit",
+                            "°C"
+                        )
+                }
             } else {
-                customHolder.itemTemperature.text =
-                    DecimalFormat("#.#").format(temperature.toDouble()) + " " + sp.getString(
-                        "unit",
-                        "°C"
-                    )
+                if (temperature != null) {
+                    customHolder.itemTemperature.text =
+                        DecimalFormat("#.#").format(temperature.toDouble()) + " " + sp.getString(
+                            "unit",
+                            "°C"
+                        )
+                }
             }
             customHolder.itemDescription.text =
-                weatherInfoItem.description.substring(0, 1).toUpperCase(Locale.getDefault()) +
-                        weatherInfoItem.description.substring(1)
+                weatherInfoItem.description!!.substring(0, 1).toUpperCase(Locale.getDefault()) +
+                        weatherInfoItem.description!!.substring(1)
             val weatherFont = Typeface.createFromAsset(context.assets, "fonts/weather.ttf")
             customHolder.itemIcon.typeface = weatherFont
             customHolder.itemIcon.text = weatherInfoItem.icon
